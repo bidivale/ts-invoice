@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection } from 'firebase/firestore';
+import { getFirestore, collection, query, orderBy} from 'firebase/firestore';
 
 // Firebase configuration object containing keys and identifiers
 const firebaseConfig = {
