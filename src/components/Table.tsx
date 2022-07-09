@@ -6,44 +6,32 @@ import { colRef} from "../firebase";
 
 export default function Table() {
 const [items, setItems]: any = useState([]);
-const [itemName, setItemName]:any = useState ("banana");
+const [itemName, setItemName]:any = useState ("select");
 const [itemUnitPrice, setItemUnitPrice] = useState(10);
-const [itemCode, setItemCode] = useState(20349);
+// const [itemCode, setItemCode] = useState();
+const [currentItem,setCurrentItem]:any=useState()
 
+
+// inital 
 
 
 
 
 const handleItemNameChange = (e:any) => {
-    e.preventDefault();
-    
-    console.log("this is e", e);
-    
-    { setItemName(e.target.value)}
-    
-    {items.length != 0 && itemName != undefined && autofillItemDetails(items, itemName)}
-    
-    
+
+    //geting the current item that matches item id
+    let item=items.find((item:any)=>{
+        return item.id===e.target.value
+    })
+
+    setCurrentItem(item)
     
 }
 
+useEffect(()=>{
+    // console.log('curent_item',currentItem);
+},[currentItem])
 
-function autofillItemDetails(itms:any, itmName:string) {
-    console.log("autofill fuction ran");
-    
-    let i
-    for(i = 0; i<items.length; i++){
-        if (items[i].fruitname === itemName) {
-                
-                setItemUnitPrice(items[i].price)
-                setItemCode(items[i].code)
-                console.log("this is i", i);
-                console.log("this is fruitname", items[i].fruitname);
-                console.log("this is price", items[i].price);
-                // break
-            }
-    }
-}
 
 useEffect(() => {
     getDocs(colRef)
@@ -54,6 +42,7 @@ useEffect(() => {
             itemsFirebase.push({...doc.data(), id:doc.id});
             // console.log("this is itemsfirebase",itemsFirebase)
             setItems(itemsFirebase)
+            setCurrentItem(itemsFirebase[0])
             
         })
     })
@@ -63,14 +52,6 @@ useEffect(() => {
 
 
 console.log("this is items",items)
-// {items.length != 0 && console.log("itemslength =", items.length)}
-// {items.length != 0 && console.log("itemsfruitname =", items[1].fruitname)}
-
-
-// {items.length != 0 && itemName != undefined && autofillItemDetails()}
-
-console.log("this is itemname", itemName)
-
 
 
     return (
@@ -86,11 +67,12 @@ console.log("this is itemname", itemName)
             </thead>
             <tbody>
               <tr className="h-10">
-                <td>{itemCode}</td>
+                <td>{currentItem?.code}</td>
                 <td>
-                    <select  onChange={handleItemNameChange} value={itemName}>
+                    <select  onChange={handleItemNameChange} >
+                    <option>Select</option>
                         {items.map((item:any) => (
-                            <option key = {item.id}> {item.fruitname} </option>
+                            <option key = {item.id} value={item.id} selected={item.id===currentItem?.id}> {item.fruitname} </option>
                             
                         ))} 
                         {/* <option>Grapefruit</option>
@@ -100,12 +82,9 @@ console.log("this is itemname", itemName)
                         <option>Banana</option> */}
                     </select>
 
-                    
-                   
-
                 </td>
                
-                <td>{itemUnitPrice}</td>
+                <td>{currentItem?.price}</td>
                 <td>129</td>
                 <td>1032</td>
                 
