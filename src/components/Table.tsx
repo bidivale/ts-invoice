@@ -6,12 +6,20 @@ import { colRefInvoices } from "../firebase";
 export default function Table() {
     const saveInvoice = (e:any)=> {
         addDoc(colRefInvoices, {
-            inv_code: 'INV-2',
+            inv_code: 'INV-4',
             inv_date: '13/07/22',
             inv_item_array: [
                 {
                 inv_item_name: "Banana",
-                inv_item_code: 90123
+                inv_item_code: 20349,
+                inv_item_qty: 3,
+                inv_line_total: 30
+                },
+                {
+                inv_item_name: "Litchi",
+                inv_item_code: 20347,
+                inv_item_qty: 2,
+                inv_line_total: 10
                 }
             ]
 
