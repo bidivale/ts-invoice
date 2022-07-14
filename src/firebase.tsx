@@ -18,4 +18,5 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 
 //collection ref
-export const colRef = collection(db, 'items')
+export const colRefItems = collection(db, 'items');
+export const colRefInvoices = collection(db, 'inv');
